@@ -12,10 +12,14 @@ class ToDoVC: UITableViewController {
 
     var itemArray = ["Make Love", "Call Mother", "Save The World"]
     
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
+        if let items = defaults.array(forKey: "ToDoListArray") as? [String] {
+            itemArray = items
+        }
     }
 
 
@@ -60,10 +64,12 @@ class ToDoVC: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             // what will happens when the user click on it
             
-            print("item was added")
-            print(textField.text)
+            //  print("item was added")
+            //  print(textField.text)
             
             self.itemArray.append(textField.text!)
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
+            
             self.tableView.reloadData()
         }
         
