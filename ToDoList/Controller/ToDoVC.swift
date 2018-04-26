@@ -121,7 +121,7 @@ class ToDoVC: UITableViewController {
     func loadItems(with request: NSFetchRequest <Items> = Items.fetchRequest() ) {
         
 //        let request : NSFetchRequest<Items> = Items.fetchRequest()
-        do{
+        do {
             let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
            itemArray = try context.fetch(request)
         } catch {
