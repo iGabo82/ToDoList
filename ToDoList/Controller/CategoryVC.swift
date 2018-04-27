@@ -12,7 +12,8 @@ import CoreData
 class CategoryVC: UITableViewController {
 
     var categoryArray = [Category]()
-   
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadCategory()
@@ -34,7 +35,6 @@ class CategoryVC: UITableViewController {
         return cell
     }
     
-   
  
     
     //MARK: - TableView Delegate Method
@@ -45,35 +45,33 @@ class CategoryVC: UITableViewController {
     }
     
     
+    //MARK: - Add New Categories
     
-    //MARK: - Data Manipulating Method
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Category", style: .default) { (action) in
             
             
-            let newItem = Category(context: context)
-            newItem.name = textField.text!
-            self.categoryArray.append(newItem)
+            let newCategory = Category(context: self.context)
+            newCategory.name = textField.text!
+            self.categoryArray.append(newCategory)
             
             self.saveCategory()
         }
         
+        alert.addAction(action)
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Create new item"
             textField = alertTextField
         }
         
-        alert.addAction(action)
         present(alert, animated: true, completion: nil)
-            
+        
         }
     
-    
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+  //MARK: - Data Manipulating Method
     
     func saveCategory() {
         do { try context.save()
@@ -88,7 +86,7 @@ class CategoryVC: UITableViewController {
         let request : NSFetchRequest<Category> = Category.fetchRequest()
         do {
             categoryArray = try context.fetch(request)
-        }catch{
+        } catch {
             print("Error fetching data \(error)!")
         }
        
