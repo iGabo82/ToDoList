@@ -9,6 +9,8 @@
 import UIKit
 import RealmSwift
 import SwipeCellKit
+import ChameleonFramework
+
 
 class CategoryVC: UITableViewController {
 
@@ -40,6 +42,7 @@ class CategoryVC: UITableViewController {
        
         cell.textLabel?.text = categoryArray?[indexPath.row].name ?? "No Categories Added Yet"
         
+        cell.backgroundColor = UIColor(hexString: categoryArray?[indexPath.row].color ?? "000000")
         return cell
     }
     
@@ -67,12 +70,11 @@ class CategoryVC: UITableViewController {
         
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Category", style: .default) { (action) in
-            
+        
             
             let newCategory = Category()
             newCategory.name = textField.text!
-//we dont need it, because realm is auto updated            self.categoryArray.append(newCategory)
-            
+            newCategory.color = UIColor.randomFlat.hexValue()
             self.save(category: newCategory)
         }
         
@@ -84,7 +86,13 @@ class CategoryVC: UITableViewController {
         
         present(alert, animated: true, completion: nil)
         
+        
+        
         }
+
+   @objc func dismissAlert (_ alert: UIAlertController) {
+        alert.dismiss(animated: true, completion: nil)
+    }
     
   //MARK: - Data Manipulating Method
     
