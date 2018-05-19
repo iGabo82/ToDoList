@@ -13,6 +13,7 @@ class StartVC: UIViewController, UIViewControllerTransitioningDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
+       
     }
 
     @IBAction func startButtonPressed(_ sender: UIButton) {

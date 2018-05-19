@@ -21,13 +21,27 @@ class CategoryVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
         tableView.rowHeight = 80.0
         
         loadCategory()
     }
    
+    
+    override func viewWillAppear(_ animated: Bool) {
+            guard let navBar = navigationController?.navigationBar else{ fatalError("Navigationbar does not exist!")}
+            
+            if let navBarColor = UIColor(hexString: "FFFFFF"){
+                navBar.barTintColor = navBarColor
+                navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+                navBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor : ContrastColorOf(navBarColor, returnFlat: true)]
+        }
+    }
+    
+
+    
+    
 
     //MARK: - TableView DataSource Method
     
@@ -43,6 +57,7 @@ class CategoryVC: UITableViewController {
         cell.textLabel?.text = categoryArray?[indexPath.row].name ?? "No Categories Added Yet"
         
         cell.backgroundColor = UIColor(hexString: categoryArray?[indexPath.row].color ?? "000000")
+    
         return cell
     }
     

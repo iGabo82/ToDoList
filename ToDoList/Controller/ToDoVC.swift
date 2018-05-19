@@ -16,6 +16,8 @@ class ToDoVC: UITableViewController {
     var todoItems : Results<Item>?
     let realm = try! Realm()
     
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     var selectedCategory : Category? {
         didSet {
             loadItems()
@@ -25,13 +27,28 @@ class ToDoVC: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.separatorStyle = .none
         tableView.rowHeight = 70.0
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let colorHex = selectedCategory?.color {
+            title = selectedCategory!.name
+            guard let navBar = navigationController?.navigationBar else{ fatalError("Navigationbar does not exist!")}
+            
+            if let navBarColor = UIColor(hexString: colorHex){
+                navBar.barTintColor = navBarColor
+                navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+                searchBar.barTintColor = navBarColor
+                navBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor : ContrastColorOf(navBarColor, returnFlat: true)]
+            }
+        }
+    }
 
 
+    
+    
 //MARK: - TableView
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
