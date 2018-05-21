@@ -24,7 +24,7 @@ class CategoryVC: UITableViewController {
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
         tableView.rowHeight = 80.0
-        
+         self.navigationController?.isNavigationBarHidden = false
         loadCategory()
     }
    
@@ -54,10 +54,16 @@ class CategoryVC: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath) as! SwipeTableViewCell
         cell.delegate = self
        
-        cell.textLabel?.text = categoryArray?[indexPath.row].name ?? "No Categories Added Yet"
+        if let category = categoryArray?[indexPath.row] {
+            cell.textLabel?.text = category.name
+            
+            guard let categoryColor = UIColor(hexString: category.color) else {fatalError()}
         
-        cell.backgroundColor = UIColor(hexString: categoryArray?[indexPath.row].color ?? "000000")
-    
+            cell.backgroundColor = categoryColor
+            cell.textLabel?.textColor = ContrastColorOf(categoryColor, returnFlat: true)
+            
+        }
+       
         return cell
     }
     

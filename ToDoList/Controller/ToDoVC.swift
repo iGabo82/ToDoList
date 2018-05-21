@@ -29,6 +29,7 @@ class ToDoVC: UITableViewController {
         super.viewDidLoad()
         tableView.separatorStyle = .none
         tableView.rowHeight = 70.0
+         self.navigationController?.isNavigationBarHidden = false
         }
     
     
@@ -63,10 +64,8 @@ class ToDoVC: UITableViewController {
         cell.delegate = self
         
         if let item = todoItems?[indexPath.row] {
-           
             cell.textLabel?.text = item.title
-           
-            
+    
             if let color = UIColor(hexString: selectedCategory!.color)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(todoItems!.count)) {
     
                 cell.backgroundColor = color
