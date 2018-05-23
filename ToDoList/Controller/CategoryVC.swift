@@ -24,22 +24,21 @@ class CategoryVC: UITableViewController {
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
         tableView.rowHeight = 80.0
-         self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = false
         loadCategory()
+    
     }
    
     
-    override func viewWillAppear(_ animated: Bool) {
+override func viewWillAppear(_ animated: Bool) {
             guard let navBar = navigationController?.navigationBar else{ fatalError("Navigationbar does not exist!")}
-            
-            if let navBarColor = UIColor(hexString: "FFFFFF"){
+    guard let navBarColor = UIColor(hexString: "FFFFFF") else {fatalError("something2")}
+    
                 navBar.barTintColor = navBarColor
                 navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
                 navBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor : ContrastColorOf(navBarColor, returnFlat: true)]
-        }
     }
     
-
     
     
 

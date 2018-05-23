@@ -34,19 +34,30 @@ class ToDoVC: UITableViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        if let colorHex = selectedCategory?.color {
-            title = selectedCategory!.name
-            guard let navBar = navigationController?.navigationBar else{ fatalError("Navigationbar does not exist!")}
-            
-            if let navBarColor = UIColor(hexString: colorHex){
-                navBar.barTintColor = navBarColor
-                navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
-                searchBar.barTintColor = navBarColor
-                navBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor : ContrastColorOf(navBarColor, returnFlat: true)]
-            }
-        }
+        title = selectedCategory?.name
+        guard let colorHex = selectedCategory?.color else {fatalError("something")}
+        updateNavBar(withHexCode: colorHex)
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        updateNavBar(withHexCode: "FFFFFF")
     }
 
+    //MARK: - Update NavigationBar
+    
+    func updateNavBar (withHexCode colorHexCode: String){
+       
+        guard let navBar = navigationController?.navigationBar else{ fatalError("Navigationbar does not exist!")}
+        
+        guard let navBarColor = UIColor(hexString: colorHexCode) else {fatalError("something2")}
+        
+        navBar.barTintColor = navBarColor
+        navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+        searchBar.barTintColor = navBarColor
+        navBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor : ContrastColorOf(navBarColor, returnFlat: true)]
+        
+    }
 
     
     
